@@ -10,29 +10,55 @@
 
   // Collection method.
   $.fn.awesome = function() {
+    var self = this;
+    $(window).on('scroll', function(evt) {
+      $(self).find('.mask__img').css({
+        'top': '-' + scrollRatio() + 'px'
+      });
+
+    });
+
+    var scrollPosition = function () {
+      var scroll = window.scrollY;
+
+      if (scroll < 0) {
+        scroll = 0;
+      } else if (scroll > ($('body').outerHeight(true) - $(window).height())) {
+        scroll = ($('body').outerHeight(true) - $(window).height());
+      }
+
+      return scroll;
+    };
+
+    var scrollRatio = function () {
+      var outerHeight = $(window).height();
+      var innerHeight = $(self).find('.iphone__mask').outerHeight(true);
+      var outerScroll = scrollPosition();
+
+      var ratio = Math.round((outerScroll * innerHeight) / outerHeight);
+
+      if (ratio > $(self).find('.mask__img').outerHeight(true)) {
+        ratio = $(self).find('.mask__img').outerHeight() - $(self).find('.iphone__mask').height();
+      }
+
+      return ratio;
+
+    };
+
+    
     return this.each(function(i) {
-      // Do something awesome to each selected element.
-      $(this).html('awesome' + i);
+      var $el = $(this);
+
+      // $el.find('.mask__img').css({
+      //   'top': scrollPosition()
+      // });
+
     });
   };
 
-  // Static method.
-  $.awesome = function(options) {
-    // Override default options with passed-in options.
-    options = $.extend({}, $.awesome.options, options);
-    // Return something awesome.
-    return 'awesome' + options.punctuation;
-  };
-
-  // Static method default options.
-  $.awesome.options = {
-    punctuation: '.'
-  };
-
-  // Custom selector.
-  $.expr[':'].awesome = function(elem) {
-    // Is this element awesome?
-    return $(elem).text().indexOf('awesome') !== -1;
-  };
-
 }(jQuery));
+
+
+$(function () {
+  $('.js-sync-scroll').awesome();
+});
