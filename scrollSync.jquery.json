@@ -1,0 +1,27 @@
+{
+  "name": "scrollSync",
+  "title": "Scroll Sync",
+  "description": "A jQuery plugin which simulates syncs scrolling with window for a parallax effect",
+  "version": "0.1.0",
+  "homepage": "https://github.com/rogeruiz/jQuery.scrollSync",
+  "author": {
+    "name": "Roger Steve Ruiz",
+    "email": "firstworldman@gmail.com",
+    "url": "http://rog.gr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rogeruiz/jQuery.scrollSync.git"
+  },
+  "bugs": "https://github.com/rogeruiz/jQuery.scrollSync/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/rogeruiz/jQuery.scrollSync/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "1.10.2"
+  },
+  "keywords": []
+}
