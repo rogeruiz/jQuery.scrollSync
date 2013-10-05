@@ -9,7 +9,7 @@
 (function($) {
 
   // Collection method.
-  $.fn.awesome = function() {
+  $.fn.scrollSync = function() {
     var self = this;
     $(window).on('scroll', function(evt) {
       $(self).find('.mask__img').css({
@@ -31,14 +31,16 @@
     };
 
     var scrollRatio = function () {
-      var outerHeight = $(window).height();
-      var innerHeight = $(self).find('.iphone__mask').outerHeight(true);
+      var imgHeight = $(self).find('.mask__img').outerHeight();
+      var outerHeight = $(window).outerHeight(true);
+      var innerHeight = $(self).find('.ss-container__mask').outerHeight(true);
       var outerScroll = scrollPosition();
+      var scrollLimit = imgHeight - $(self).find('.ss-container__mask').outerHeight();
+      var speed = 1.5;
+      var ratio = Math.round((outerScroll * innerHeight) / outerHeight) * speed;
 
-      var ratio = Math.round((outerScroll * innerHeight) / outerHeight);
-
-      if (ratio > $(self).find('.mask__img').outerHeight(true)) {
-        ratio = $(self).find('.mask__img').outerHeight() - $(self).find('.iphone__mask').height();
+      if (ratio > scrollLimit) {
+        ratio = scrollLimit;
       }
 
       return ratio;
@@ -60,5 +62,5 @@
 
 
 $(function () {
-  $('.js-sync-scroll').awesome();
+  $('.js-sync-scroll').scrollSync();
 });
