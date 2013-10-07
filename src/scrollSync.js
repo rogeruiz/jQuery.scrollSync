@@ -9,7 +9,10 @@
 (function($) {
 
   // Collection method.
-  $.fn.scrollSync = function() {
+  $.fn.scrollSync = function(options) {
+    var defaults = {};
+    $.extend(defaults, options);
+    
     var self = this;
     $(window).on('scroll', function(evt) {
       $(self).trigger('sync');
@@ -36,7 +39,7 @@
         var innerHeight = $el.find('.ss-container__mask').outerHeight(true);
         var outerScroll = scrollPosition();
         var scrollLimit = imgHeight - $el.find('.ss-container__mask').outerHeight();
-        var speed = 0.75;
+        var speed = defaults.ratio || 1.0;
         var ratio = Math.round((outerScroll * innerHeight) / outerHeight) * speed;
 
         if (ratio > scrollLimit) {
@@ -61,4 +64,7 @@
 
 $(function () {
   $('.js-sync-scroll').scrollSync();
+  $('.js-super-scroll').scrollSync({
+    ratio: 3.0
+  });
 });
