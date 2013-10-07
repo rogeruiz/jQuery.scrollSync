@@ -12,48 +12,46 @@
   $.fn.scrollSync = function() {
     var self = this;
     $(window).on('scroll', function(evt) {
-      $(self).find('.mask__img').css({
-        'top': '-' + scrollRatio() + 'px'
-      });
-
+      $(self).trigger('sync');
     });
 
-    var scrollPosition = function () {
-      var scroll = window.scrollY;
-
-      if (scroll < 0) {
-        scroll = 0;
-      } else if (scroll > ($('body').outerHeight(true) - $(window).height())) {
-        scroll = ($('body').outerHeight(true) - $(window).height());
-      }
-
-      return scroll;
-    };
-
-    var scrollRatio = function () {
-      var imgHeight = $(self).find('.mask__img').outerHeight();
-      var outerHeight = $(window).outerHeight(true);
-      var innerHeight = $(self).find('.ss-container__mask').outerHeight(true);
-      var outerScroll = scrollPosition();
-      var scrollLimit = imgHeight - $(self).find('.ss-container__mask').outerHeight();
-      var speed = 1.5;
-      var ratio = Math.round((outerScroll * innerHeight) / outerHeight) * speed;
-
-      if (ratio > scrollLimit) {
-        ratio = scrollLimit;
-      }
-
-      return ratio;
-
-    };
-
-    
     return this.each(function(i) {
       var $el = $(this);
 
-      // $el.find('.mask__img').css({
-      //   'top': scrollPosition()
-      // });
+      var scrollPosition = function () {
+        var scroll = window.scrollY;
+
+        if (scroll < 0) {
+          scroll = 0;
+        } else if (scroll > ($('body').outerHeight(true) - $(window).height())) {
+          scroll = ($('body').outerHeight(true) - $(window).height());
+        }
+
+        return scroll;
+      };
+
+      var scrollRatio = function () {
+        var imgHeight = $el.find('.mask__img').outerHeight();
+        var outerHeight = $(window).outerHeight(true);
+        var innerHeight = $el.find('.ss-container__mask').outerHeight(true);
+        var outerScroll = scrollPosition();
+        var scrollLimit = imgHeight - $el.find('.ss-container__mask').outerHeight();
+        var speed = 0.75;
+        var ratio = Math.round((outerScroll * innerHeight) / outerHeight) * speed;
+
+        if (ratio > scrollLimit) {
+          ratio = scrollLimit;
+        }
+
+        return ratio;
+
+      };
+
+      $el.on('sync', function (evt) {
+        $(this).find('.mask__img').css({
+          'top': '-' + scrollRatio() + 'px'
+        });
+      });
 
     });
   };
